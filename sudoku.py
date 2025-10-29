@@ -18,7 +18,7 @@ class Grid:
         sideLen = columns
         
         for i in range(sideLen):
-            if len(G[i] != sideLen):
+            if len(G[i]) != sideLen:
                 raise ValueError # not a square matrix
             for j in range(sideLen):
                 if not (isinstance(G[i][j], int) and (0 <= G[i][j] <= sideLen)):
@@ -29,13 +29,45 @@ class Grid:
 
     # Returns a two dimensional matrix representing the grid.
     def toMatrix(self):
-        raise NotImplementedError
+        return deepcopy(self.grid)
 
     # Return True if this grid represents a valid partially filled sudoku
     # board, meaning every cell is empty or contains a valid value and
     # no value appears more than once in any row, column, or sub-square
     def isValidGrid(self):
-        raise NotImplementedError
+        grid = self.grid
+        sideLen = len(grid)
+        subSquareLen = int(sideLen ** 0.5)
+        # check rows and columns
+        for i in range(sideLen):
+            col_nums = set() # we use a set instead of a list, bc sets have O(1) lookup time
+            row_nums = set()
+            for j in range(sideLen):
+                col_num = grid[i][j]
+                if col_num != 0:
+                    if col_num in col_nums:
+                        return False
+                    else: 
+                        col_nums.add(col_num)
+                row_num = grid[j][i]
+                if row_num != 0:
+                    if row_num in row_nums:
+                        return False
+                    else:
+                        row_nums.add(row_num)
+        # check sub-squares
+        for sub_i in range(subSquareLen):
+            for sub_j in range(subSquareLen):
+                nums = set()
+                for i in range(subSquareLen):
+                    for j in range(subSquareLen):
+                        num = grid[sub_i * subSquareLen + i][sub_j * subSquareLen + j]
+                        if num != 0:
+                            if num in nums:
+                                return False
+                            else:
+                                nums.add(num)
+        return True
 
     # Returns a new Grid with a complete solution of this grid, if it exists,
     # or None otherwise. This method is non-destructive.
