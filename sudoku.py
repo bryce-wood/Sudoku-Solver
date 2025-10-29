@@ -24,7 +24,7 @@ class Grid:
                 if not (isinstance(G[i][j], int) and (0 <= G[i][j] <= sideLen)):
                     raise ValueError # invalid value
         # If we reach this point, G is valid
-        self.grid = deepcopy(G)
+        self.grid = tuple(map(tuple, G))  # make immutable
 
 
     # Returns a two dimensional matrix representing the grid.
@@ -72,14 +72,46 @@ class Grid:
     # Returns a new Grid with a complete solution of this grid, if it exists,
     # or None otherwise. This method is non-destructive.
     def getSolution(self):
-        raise NotImplementedError
+        # slow since it finds all solutions instead of stopping at the first one, but works
+        # TODO: stop at first solution found
+        solutions = self._allSolutionsHelper(self.grid, set())
+        if len(solutions) == 0:
+            return None
+        else:
+            return Grid(solutions.pop())
 
     # Return True if there is exactly one complete solution of this grid. This
     # method is non-destructive.
     def hasUniqueSolution(self):
-        raise NotImplementedError
+        solutions = self._allSolutionsHelper(self.grid, set())
+        return len(solutions) == 1
 
     # Return a (possibly empty) list of Board objects containing all possible
     # solutions of this grid. This method is non-desctructive.
     def getAllSolutions(self):
-        raise NotImplementedError
+        solutions = self._allSolutionsHelper(self.grid, set())
+        # solutions is a set to avoid duplicates, convert to list before returning
+        return Grid(list(solutions))
+    
+    # uses recursion with pruning to find all solutions (a set) of the grid
+    def _allSolutionsHelper(self, grid, solutions):
+        self.grid = grid
+        if not self.isValidGrid():
+            return solutions
+        # for every empty cell, try every possible value
+        length = len(grid)
+        used_recursion = False
+        for i in range(length):
+            for j in range(length):
+                if grid[i][j] == 0:
+                    used_recursion = True
+                    for num in range(1, length + 1):
+                        new_grid = deepcopy(grid)
+                        new_grid[i][j] = num
+                        # solutions unique solutions are added
+                        solutions = solutions | self._allSolutionsHelper(new_grid, solutions)
+        if not used_recursion:
+            # no empty cells and a valid grid, add this solution
+            solutions.add(grid)
+        else:
+            return solutions
