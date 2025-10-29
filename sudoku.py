@@ -95,26 +95,4 @@ class Grid:
     
     # uses recursion with pruning to find all solutions (a set) of the grid
     def _allSolutionsHelper(self, grid, solutions):
-        self.grid = grid
-        if not self.isValidGrid():
-            return solutions
-        # for every empty cell, try every possible value
-        length = len(grid)
-        used_recursion = False
-        for i in range(length):
-            for j in range(length):
-                if grid[i][j] == 0:
-                    used_recursion = True
-                    for num in range(1, length + 1):
-                        new_grid = deepcopy(grid)
-                        new_grid[i][j] = num
-                        # solutions unique solutions are added
-                        solutions = solutions | self._allSolutionsHelper(new_grid, solutions)
-        if not used_recursion:
-            # no empty cells and a valid grid, add this solution
-            # grid is a list, can't be added to a set, convert to tuple of tuples
-            grid = tuple(map(tuple, grid))
-            solutions.add(grid)
-            return solutions
-        else:
-            return solutions
+        raise NotImplementedError
