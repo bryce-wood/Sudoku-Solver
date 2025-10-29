@@ -24,7 +24,7 @@ class Grid:
                 if not (isinstance(G[i][j], int) and (0 <= G[i][j] <= sideLen)):
                     raise ValueError # invalid value
         # If we reach this point, G is valid
-        self.grid = tuple(map(tuple, G))  # make immutable
+        self.grid = deepcopy(G)
 
 
     # Returns a two dimensional matrix representing the grid.
@@ -90,8 +90,8 @@ class Grid:
     # solutions of this grid. This method is non-desctructive.
     def getAllSolutions(self):
         solutions = self._allSolutionsHelper(self.grid, set())
-        # solutions is a set to avoid duplicates, convert to list before returning
-        return Grid(list(solutions))
+        # solutions is a set of tuples, convert to list before returning
+        return [Grid([list(row) for row in solution]) for solution in solutions]
     
     # uses recursion with pruning to find all solutions (a set) of the grid
     def _allSolutionsHelper(self, grid, solutions):
@@ -112,6 +112,9 @@ class Grid:
                         solutions = solutions | self._allSolutionsHelper(new_grid, solutions)
         if not used_recursion:
             # no empty cells and a valid grid, add this solution
+            # grid is a list, can't be added to a set, convert to tuple of tuples
+            grid = tuple(map(tuple, grid))
             solutions.add(grid)
+            return solutions
         else:
             return solutions

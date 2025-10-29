@@ -5,7 +5,7 @@ def main():
     n_tests = 0
     n_pass = 0
     n_fail = 0
- 
+    
     A = [[0,0,0], [0,0,0], [0,0,0], [0,0,0]]
     n_tests += 1
     passing = runTest("confirming malformed input raises ValueError",
@@ -83,7 +83,7 @@ def main():
         n_pass += 1
     else:
         n_fail += 1
-
+    
     n_tests += 1
     passing = runTest("checking fully solved grid has solution",
         hasSolutionTest, GRID1S, True)
@@ -91,7 +91,7 @@ def main():
         n_pass += 1
     else:
         n_fail += 1
-
+    
     n_tests += 1
     passing = runTest("checking grid with one solution has solution",
         hasSolutionTest, GRID1, True)
@@ -195,7 +195,7 @@ def main():
         n_pass += 1
     else:
         n_fail += 1
-
+    
     print("\n")
     print("Testing complete.")
     print("\tPASS: %d" % n_pass)
