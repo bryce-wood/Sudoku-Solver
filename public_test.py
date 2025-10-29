@@ -187,7 +187,7 @@ def main():
         n_pass += 1
     else:
         n_fail += 1
-    '''
+    
     n_tests += 1
     passing = runTest("solving big grid with unique solution",
         correctUniqueSolutionTest, BIG, BIGS)
@@ -195,7 +195,7 @@ def main():
         n_pass += 1
     else:
         n_fail += 1
-    '''
+    
     print("\n")
     print("Testing complete.")
     print("\tPASS: %d" % n_pass)
