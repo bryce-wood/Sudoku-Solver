@@ -2,7 +2,7 @@ import sudoku
 from copy import deepcopy
 
 def main():
-    '''
+    
     n_tests = 0
     n_pass = 0
     n_fail = 0
@@ -202,20 +202,6 @@ def main():
     print("\tPASS: %d" % n_pass)
     print("\tFAIL: %d" % n_fail)
     print("\tSKIP: %d" % (n_tests - n_pass - n_fail))
-    '''
-    h_grid = []
-    h_grid.append([0,0,0,0,0,6,0,0,0])
-    h_grid.append([0,5,9,0,0,0,7,8,0])
-    h_grid.append([3,0,0,0,8,0,0,0,4])
-    h_grid.append([0,0,0,1,0,0,0,0,0])
-    h_grid.append([0,0,0,0,0,3,0,0,2])
-    h_grid.append([1,0,0,0,0,0,0,0,0])
-    h_grid.append([0,0,0,8,0,0,0,0,0])
-    h_grid.append([0,0,0,0,0,0,0,4,0])
-    h_grid.append([0,0,5,2,0,0,0,0,0])
-    
-    solutions = sudoku.Grid(h_grid).getAllSolutions()
-    print(f"Number of solutions found: {len(solutions)}")
 
 def formatTest(matrix, error):
     passed = False
